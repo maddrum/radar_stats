@@ -16,12 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include
 from django.conf.urls import url
-from database_reader import views
+from main_app import views
 
 urlpatterns = [
-    url(r'^$', views.index),
-    url(r'database-raw', include('database_reader.urls',namespace='database-raw')),
+    url(r'^$', views.Index.as_view(), name='index'),
+    url(r'main/', include('main_app.urls')),
+    url(r'database-raw', include('database_reader.urls', namespace='database-raw')),
     url('account/', include('accounts.urls', namespace='accounts')),
+    url(r'charts/', include('charts.urls', namespace='charts')),
+    url(r'include/', include('queries.urls', namespace='queries')),
     url('admin/', admin.site.urls),
 
 ]

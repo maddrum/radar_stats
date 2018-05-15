@@ -35,8 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'fussion_charts',
     'database_reader',
     'accounts',
+    'charts',
 
 ]
 
