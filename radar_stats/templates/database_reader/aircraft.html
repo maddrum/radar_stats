@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block title %}
+    <title>Aircraft Raw Data</title>
+{% endblock %}
+{% block body_content %}
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+            <th>Number</th>
+            <th>Type</th>
+            <th>Country</th>
+            <th>Registration</th>
+            <th>Serial Number</th>
+            <th>Owner</th>
+            <th>Year</th>
+        </thead>
+        {% for item in aircraft %}
+
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.type }}</td>
+                <td>{{ item.country }}</td>
+                <td>{{ item.registration }}</td>
+                <td>{{ item.serialno }}</td>
+                <td>{{ item.registeredowners }}</td>
+                <td>{{ item.yearbuilt }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block body_content %}
+    <h2>Please, enter information bellow</h2>
+    <form method="POST">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="submit" value="Register" class="btn btn-default">
+        <input type="reset" class="btn" value="Cancel">
+    </form>
+
+{% endblock %}
