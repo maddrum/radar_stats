@@ -21,10 +21,11 @@ from main_app import views
 urlpatterns = [
     url(r'^$', views.Index.as_view(), name='index'),
     url(r'main/', include('main_app.urls')),
-    url(r'database-raw', include('database_reader.urls', namespace='database-raw')),
+    url(r'database-raw/', include('database_reader.urls', namespace='database-raw')),
     url('account/', include('accounts.urls', namespace='accounts')),
     url(r'charts/', include('charts.urls', namespace='charts')),
-    url(r'include/', include('queries.urls', namespace='queries')),
+    url(r'queries/', include('queries.urls', namespace='queries')),
+    url(r'database-processor/', include('database_data_processor.urls', namespace='database_processor')),
     url('admin/', admin.site.urls),
 
 ]

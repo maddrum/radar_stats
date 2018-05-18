@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'fussion_charts',
     'database_reader',
     'accounts',
+    'database_data_processor',
     'charts',
+
 
 ]
 

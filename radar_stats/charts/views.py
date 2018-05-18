@@ -1,15 +1,15 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from fussion_charts.fusioncharts import FusionCharts
-from database_reader.models import Flights
+from charts.models import MostPlanesTakeOff, MostPlanesLanded
 
 
 # Create your views here.
-def chart(request):
+def most_landed_planes(request):
     dataSource = {}
     # setting chart cosmetics
     dataSource['chart'] = {
-        "caption": "Top 10 Most Populous Countries",
+        "caption": "Top 20 planes (registration) landed at Sofia Airport",
         "paletteColors": "#0075c2",
         "bgColor": "#ffffff",
         "borderAlpha": "20",
@@ -28,13 +28,15 @@ def chart(request):
     # The data for the chart should be in an array wherein each element of the array is a JSON object as
     # `label` and `value` keys.
     # Iterate through the data in `Country` model and insert in to the `dataSource['data']` list.
-    for key in Flights.objects.select_related().filter(aircraftid__country='')[:10]:
+
+    counter = 0
+    for key in MostPlanesLanded.objects.all()[:20]:
         data = {}
-        data['label'] = key.aircraftid.country
-        data['value'] = key.flightid
+        data['label'] = key.aircraft_id_landed.registration
+        data['value'] = key.number_of_times_landed
         dataSource['data'].append(data)
 
-        # Create an object for the Column 2D chart using the FusionCharts class constructor
+    # Create an object for the Column 2D chart using the FusionCharts class constructor
     column2D = FusionCharts("column2D", "ex1", "600", "400", "chart-1", "json", dataSource)
     # returning complete JavaScript and HTML code, which is used to generate chart in the browsers.
 
