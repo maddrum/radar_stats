@@ -4,6 +4,6 @@ from charts import views
 app_name = 'charts'
 
 urlpatterns = [
-    url(r'most-landed-plane', views.most_landed_planes)
+    url(r'take-offs-and-landings', views.most_landed_takeoff_planes, name='take-off_landing')
 
 ]

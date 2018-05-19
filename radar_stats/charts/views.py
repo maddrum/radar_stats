@@ -1,16 +1,18 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from fussion_charts.fusioncharts import FusionCharts
-from charts.models import MostPlanesTakeOff, MostPlanesLanded
+from charts.models import Stats, MostPlanesTakeOff, MostPlanesLanded
 
 
 # Create your views here.
-def most_landed_planes(request):
+def most_landed_takeoff_planes(request):
+    context_dict = {}
+    # landings
     dataSource = {}
     # setting chart cosmetics
     dataSource['chart'] = {
-        "caption": "Top 20 planes (registration) landed at Sofia Airport",
-        "paletteColors": "#0075c2",
+        "caption": "Top 20 planes landed at Sofia Airport",
+        "paletteColors": "#af2f2f",
         "bgColor": "#ffffff",
         "borderAlpha": "20",
         "canvasBorderAlpha": "0",
@@ -29,7 +31,7 @@ def most_landed_planes(request):
     # `label` and `value` keys.
     # Iterate through the data in `Country` model and insert in to the `dataSource['data']` list.
 
-    counter = 0
+
     for key in MostPlanesLanded.objects.all()[:20]:
         data = {}
         data['label'] = key.aircraft_id_landed.registration
@@ -37,7 +39,40 @@ def most_landed_planes(request):
         dataSource['data'].append(data)
 
     # Create an object for the Column 2D chart using the FusionCharts class constructor
-    column2D = FusionCharts("column2D", "ex1", "600", "400", "chart-1", "json", dataSource)
+    column2D_landing = FusionCharts("column2D", "ex1", "600", "400", "chart-1", "json", dataSource)
     # returning complete JavaScript and HTML code, which is used to generate chart in the browsers.
+    context_dict['output_landing'] = column2D_landing.render()
+    # landing stats
+    landing_stats_query = Stats.objects.get(stats_name='MostPlanesLanded')
+    landing_number = landing_stats_query.records_processed
+    landing_update_time = landing_stats_query.time_last_updated
+    context_dict['landing_number_of_records'] = landing_number
+    context_dict['landing_update_time'] = landing_update_time
 
-    return render(request, 'charts/sample.html', {'output': column2D.render()})
+    # take-offs
+    dataSource = {}
+    dataSource['chart'] = {
+        "caption": "Top 20 planes take-offs at Sofia Airport",
+        "paletteColors": "#96ba97",
+        "bgColor": "#ffffff",
+        "borderAlpha": "20",
+        "canvasBorderAlpha": "0",
+        "usePlotGradientColor": "0",
+        "plotBorderAlpha": "10",
+        "showXAxisLine": "1",
+        "xAxisLineColor": "#999999",
+        "showValues": "0",
+        "divlineColor": "#999999",
+        "divLineIsDashed": "1",
+        "showAlternateHGridColor": "0"
+    }
+    dataSource['data'] = []
+    for key in MostPlanesTakeOff.objects.all()[:20]:
+        data = {}
+        data['label'] = key.aircraft_id_take_off.registration
+        data['value'] = key.number_of_take_offs
+        dataSource['data'].append(data)
+    column2D_take_off = FusionCharts("column2D", "ex2", "600", "400", "chart-2", "json", dataSource)
+    context_dict['output_take_off'] = column2D_take_off.render()
+
+    return render(request, 'charts/take-off-landing.html', context_dict)

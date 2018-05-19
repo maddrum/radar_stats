@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% block body_content %}
-    <p>database: {{ database }}</p>
-    <p style="color:green;">process successful!</p>
+    <h2> Summary: </h2>
+    <ul>
+        <li> Database: {{ database }}</li>
+        <li> Processed records: {{ records_counter }}</li>
+    </ul>
 {% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block body_content %}
+    <div id="chart-2" align="center">{{ output_take_off|safe }}</div>
+    <div style="font-size: 12px;">
+        chart stats:
+        <ul >
+            <li>Records processed: {{ landing_number_of_records }}</li>
+            <li>Information Last Updated: {{ landing_update_time }}</li>
+        </ul>
+    </div>
+
+
+    <div id="chart-1" align="center">{{ output_landing|safe }}</div>
+    <div class="inner" align="center">
+        <p>Stats:</p>
+    </div>
+
+{% endblock %}

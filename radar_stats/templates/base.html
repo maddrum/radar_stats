@@ -71,7 +71,7 @@
                                 <a href="#">Charts</a>
                                 <div class="dropdown-menu-wrap">
                                     <ul>
-                                        <li><a href="right-sidebar.html">Right Sidebar</a></li>
+                                        <li><a href="{% url 'charts:take-off_landing' %}">Take-Offs&Landing</a></li>
                                         <li><a href="left-sidebar.html">Left Sidebar</a></li>
 
                                     </ul>
@@ -98,9 +98,30 @@
                                         {% endif %}
 
                                     </ul>
+
                                 </div>
+
+
                             </div>
                         </li>
+                        {% if user.is_superuser %}
+                            <li class="has-sub">
+                                <div class="drop-down-menu">
+                                    <a href="/admin/">ADMIN</a>
+                                    <div class="dropdown-menu-wrap">
+                                        <ul>
+                                            <li><a href="{% url 'database_processor:proceed_take_offs' %}">Process
+                                                Take-Offs</a></li>
+                                            <li><a href="{% url 'database_processor:proceed_landings' %}">Process
+                                                Landings</a></li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endif %}
+
+
                         <li class="cta"><a href="contact.html">Contact</a></li>
                     </ul>
                 </nav>
