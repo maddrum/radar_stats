@@ -38,8 +38,9 @@
     <div id="fh5co-page">
         <header id="fh5co-header" role="banner">
             <div class="container">
-                <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle dark"><i></i></a>
-                <div id="fh5co-logo"><a href="index.html"><img src="images/logo.jpg" alt="Free HTML5 Website Template"></a>
+                <a href="" class="js-fh5co-nav-toggle fh5co-nav-toggle dark"><i></i></a>
+                <div id="fh5co-logo"><a href="../"><img src="{% static 'images/logo.PNG' %}"
+                                                        alt="Free HTML5 Website Template"></a>
                 </div>
                 <nav id="fh5co-main-nav" role="navigation">
                     <ul>
@@ -72,7 +73,7 @@
                                 <div class="dropdown-menu-wrap">
                                     <ul>
                                         <li><a href="{% url 'charts:take-off_landing' %}">Take-Offs&Landing</a></li>
-                                        <li><a href="left-sidebar.html">Left Sidebar</a></li>
+                                        <li><a href="{% url 'charts:hour_take_offs_and_landings' %}">Hourly reports</a></li>
 
                                     </ul>
                                 </div>
@@ -114,6 +115,10 @@
                                                 Take-Offs</a></li>
                                             <li><a href="{% url 'database_processor:proceed_landings' %}">Process
                                                 Landings</a></li>
+                                            <li><a href="{% url 'database_processor:take_off_hour' %}">Process
+                                                Hour Take-Offs</a></li>
+                                            <li><a href="{% url 'database_processor:landing_hour' %}">Process
+                                                Hour Landings</a></li>
 
                                         </ul>
                                     </div>

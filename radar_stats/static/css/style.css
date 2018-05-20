@@ -334,7 +334,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 #fh5co-header #fh5co-main-nav ul li.cta a {
   padding: 10px 20px;
-  background: #FF5126;
+  background: #b65923;
   color: #fff;
   display: -moz-inline-stack;
   display: inline-block;
@@ -965,7 +965,7 @@ h1, h2, h3, h4, h5, h6 {
   padding-top: 7px !important;
   padding-bottom: 7px !important;
   background: #FCEDDA;
-  border: 2px solid #FCEDDA;
+  border: 1px solid #FCEDDA;
   color: #fff !important;
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;

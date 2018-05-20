@@ -1,22 +1,11 @@
 from django.db import models
 from database_reader.models import Flights, Aircraft
 from django.utils import timezone
+from django.db.models import F
+from charts.model_summarizers import summarize_time_generator, summarize_generator
 
 
 # Create your models here.
-def summarize_generator(key_in):
-    # create summarize plane data from type Plane_id:number count, for query data passed
-    summarize = {}
-    counter = 1
-    for key in key_in:
-        plane_count = 0
-        aircraft_pk = key.aircraftid
-        if aircraft_pk in summarize:
-            plane_count = summarize[aircraft_pk]
-        plane_count += 1
-        summarize[aircraft_pk] = plane_count
-        counter += 1
-    return summarize, counter
 
 
 class Stats(models.Model):
@@ -53,7 +42,7 @@ class MostPlanesLanded(models.Model):
     def data_processor(self):
         name_for_stats = __class__.__name__
         self.table_drop()
-        query_keys = Flights.objects.filter(lastaltitude__lt=5000)
+        query_keys = Flights.objects.filter(lastaltitude__lt=2500, firstaltitude__gte=F('lastaltitude'))
         summarize, records_counter = summarize_generator(key_in=query_keys)
         # add processed records to statistics
         Stats().stats_writer(stats_name=name_for_stats, stats_records=records_counter)
@@ -80,13 +69,62 @@ class MostPlanesTakeOff(models.Model):
         name_for_stats = __class__.__name__
         self.table_drop()
         bulk_array = []
-        query_keys = Flights.objects.filter(firstaltitude__lte=5000)
+        query_keys = Flights.objects.filter(firstaltitude__lte=2500, lastaltitude__gte=F('firstaltitude'))
         summarize, records_counter = summarize_generator(key_in=query_keys)
         # add processed records to statistics
         Stats().stats_writer(stats_name=name_for_stats, stats_records=records_counter)
         id = 0
         for item in sorted(summarize, key=summarize.get, reverse=True)[:100]:
             array_item = MostPlanesTakeOff(id=id, aircraft_id_take_off=item, number_of_take_offs=summarize[item])
+            id += 1
+            bulk_array.append(array_item)
+        self.objects.bulk_create(bulk_array)
+        return name_for_stats, records_counter
+
+
+class TakeOffDayTimes(models.Model):
+    time_of_the_day = models.IntegerField()
+    number_of_planes = models.BigIntegerField()
+
+    @classmethod
+    def table_drop(self):
+        self.objects.all().delete()
+
+    @classmethod
+    def data_processor(self):
+        name_for_stats = __class__.__name__
+        self.table_drop()
+        bulk_array = []
+        query_keys = Flights.objects.filter(firstaltitude__lte=2500, lastaltitude__gte=F('firstaltitude'))
+        summarize, records_counter = summarize_time_generator(key_in=query_keys, start_or_end='start')
+        Stats().stats_writer(stats_name=name_for_stats, stats_records=records_counter)
+        id = 0
+        for item in sorted(summarize):
+            array_item = TakeOffDayTimes(id=id, time_of_the_day=item, number_of_planes=summarize[item])
+            id += 1
+            bulk_array.append(array_item)
+        self.objects.bulk_create(bulk_array)
+        return name_for_stats, records_counter
+
+class LandingsDayTimes(models.Model):
+    time_of_the_day = models.IntegerField()
+    number_of_planes = models.BigIntegerField()
+
+    @classmethod
+    def table_drop(self):
+        self.objects.all().delete()
+
+    @classmethod
+    def data_processor(self):
+        name_for_stats = __class__.__name__
+        self.table_drop()
+        bulk_array = []
+        query_keys = Flights.objects.filter(lastaltitude__lt=2500, firstaltitude__gte=F('lastaltitude'))
+        summarize, records_counter = summarize_time_generator(key_in=query_keys, start_or_end='end')
+        Stats().stats_writer(stats_name=name_for_stats, stats_records=records_counter)
+        id = 0
+        for item in sorted(summarize):
+            array_item = TakeOffDayTimes(id=id, time_of_the_day=item, number_of_planes=summarize[item])
             id += 1
             bulk_array.append(array_item)
         self.objects.bulk_create(bulk_array)
