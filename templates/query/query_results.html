@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block body_content %}
+    <table>
+        <tr>
+            <th>Country</th>
+            <th>Owner</th>
+            <th>Type</th>
+            <th>Reg</th>
+            <th>Serial</th>
+            <th>Year</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+        </tr>
+
+        {% for item in result %}
+            <tr class="table table-responsive table-bordered">
+                <td>{{ item.aircraftid.country }}</td>
+                <td>{{ item.aircraftid.registeredowners }}</td>
+                <td>{{ item.aircraftid.type }}</td>
+                <td>{{ item.aircraftid.registration }}</td>
+                <td>{{ item.aircraftid.serialno }}</td>
+                <td>{{ item.aircraftid.yearbuilt }}</td>
+                <td>{{ item.starttime }}</td>
+                <td>{{ item.endtime }}</td>
+            </tr>
+
+        {% endfor %}
+    </table>
+
+
+{% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block body_content %}
-    <form method="POST" action="">
+    <form method="POST" action="{% url 'queries:query_result' %}">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Proceed Query" class="btn btn-default">
