@@ -112,6 +112,7 @@ PASSWORD_HASHERS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
+#test
 
 LANGUAGE_CODE = 'en-us'
 
