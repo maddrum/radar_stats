@@ -14,12 +14,13 @@
 
     {#    <link rel="stylesheet" href="{% static 'css/animate.css' %}">#}
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     {#    <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">#}
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 
-    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'node_modules/jquery/dist/jquery.js' %}"></script>
     <script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'node_modules/fusioncharts/fusioncharts.js' %}"></script>
     <script type="text/javascript"
@@ -56,24 +57,15 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="has-sub">
-                            <div class="drop-down-menu">
-                                <a href="services.html">Query</a>
-                                <div class="dropdown-menu-wrap">
-                                    <ul>
-                                        <li><a href="{% url 'database_reader:aircraft' %}">Query Ai</a></li>
-                                        <li><a href="{% url 'database_reader:flights' %}">Flights</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
+                        <li><a href="{% url 'queries:query_start' %}">Make Query</a></li>
                         <li class="has-sub">
                             <div class="drop-down-menu">
                                 <a href="#">Charts</a>
                                 <div class="dropdown-menu-wrap">
                                     <ul>
                                         <li><a href="{% url 'charts:take-off_landing' %}">Take-Offs&Landing</a></li>
-                                        <li><a href="{% url 'charts:hour_take_offs_and_landings' %}">Hourly reports</a></li>
+                                        <li><a href="{% url 'charts:hour_take_offs_and_landings' %}">Hourly reports</a>
+                                        </li>
 
                                     </ul>
                                 </div>
@@ -162,9 +154,8 @@
                     </div>
                 </div>
             </div>
+        </footer>
     </div>
-    </footer>
-</div>
 </div>
 
 <div class="gototop js-top">
@@ -176,6 +167,7 @@
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/owl.carousel.min.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'node_modules/multiselect-two-sides/dist/js/multiselect.js' %}"></script>
 
 </body>
 </html>

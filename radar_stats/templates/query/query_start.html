@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block body_content %}
+    <h3>Make Custom Query</h3>
+    <p>
+        <b>STEP 1</b> -> Choose from <em>LEFT</em> list your query criteria. Note that the query will be processed in
+        the same order
+        you have picked.
+    </p>
+    <p>Note: Ax fields refers Aircrafts, and Fx fields refers to a Flight for an Aircraft.</p>
+    <p style="font-size: 14px"><em>Example:</em> You have chosen Country, Owner and Registration in that order. This
+        means that the query will be done
+        first by Country, then by Owner and last by Plane Registration </p>
+
+    <form method="POST" action="{% url 'queries:step_2' %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-xs-5">
+                <select name="from" id="multiselect" class="form-control" size="8" multiple="multiple">
+                    <option value="modescountry">A1.Country</option>
+                    <option value="registeredowners">A2.Owner</option>
+                    <option value="registration">A3.Registration</option>
+                    <option value="aircraft_type">A4.Aircraft Type [make|model]</option>
+                    <option value="serialno">A5.Serial Number</option>
+                    <option value="yearbuilt">A6.Year of Manifacture</option>
+                    <option value="starttime">F1:Start Time</option>
+                    <option value="endtime">F2:End Time</option>
+                    <option value="callsign">F3:Callsign</option>
+                    <option value="firstaltitude">F4:First Altitude</option>
+                    <option value="lastaltitude">F5:Last Altitude</option>
+                    <option value="firstsquawk">F6:First SQAAWK</option>
+                    <option value="lastsquawk">F7:Last SQUAWK</option>
+                    <option value="hadalert">F8:Had Alert</option>
+                    <option value="hademergency">F9:Had Emergency</option>
+                </select>
+            </div>
+            <div class="col-xs-2">
+                <button type="button" id="multiselect_rightAll" class="btn btn-block"><i
+                        class="glyphicon glyphicon-forward"></i></button>
+                <button type="button" id="multiselect_rightSelected" class="btn btn-block"><i
+                        class="glyphicon glyphicon-chevron-right"></i></button>
+                <button type="button" id="multiselect_leftSelected" class="btn btn-block"><i
+                        class="glyphicon glyphicon-chevron-left"></i></button>
+                <button type="button" id="multiselect_leftAll" class="btn btn-block"><i
+                        class="glyphicon glyphicon-backward"></i></button>
+            </div>
+            <div class="col-xs-5">
+                <select name="to" id="multiselect_to" class="form-control" size="8" multiple="multiple">
+                </select>
+            </div>
+        </div>
+        <script type="text/javascript">
+            jQuery(document).ready(function ($) {
+                $('#multiselect').multiselect({
+                    sort: false
+                });
+            });
+        </script>
+        <br>
+        <input type="submit" value="Next Step:Pick criterias" class="btn btn-default">
+    </form>
+
+{% endblock %}
