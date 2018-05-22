@@ -18,6 +18,9 @@
     {#    <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">#}
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block header_link %}
+    {% endblock %}
+    <link type="text/css" href="{% static 'node_modules/jQuery-QueryBuilder/dist/css/query-builder.default.css' %}">
 
 
     <script src="{% static 'node_modules/jquery/dist/jquery.js' %}"></script>
@@ -25,6 +28,8 @@
     <script type="text/javascript" src="{% static 'node_modules/fusioncharts/fusioncharts.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'node_modules/fusioncharts/themes/fusioncharts.theme.fint.js' %}"></script>
+    {% block heaader_scripts %}
+    {% endblock %}
 
 </head>
 

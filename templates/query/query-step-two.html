@@ -2,8 +2,51 @@
 {% block body_content %}
     <form method="POST" action="{% url 'queries:query_result' %}">
         {% csrf_token %}
-        {{ form.as_p }}
+        <table class="table table-bordered">
+
+            <th>Criteria Name</th>
+            <th>Selector</th>
+            <th>Criteria Value</th>
+            <th>Extra Criteria Value</th>
+
+            {% for item in form %}
+                <tr>
+                    <td> {{ forloop.counter }}</td>
+                    <td>{{ item.label }}</td>
+                    {% for key,value in parameters.items %}
+                        {% if key == item.name %}
+                            <td align="center">
+                                {% if value.selector %}
+                                    <select id="{{ item.name }} selector">
+                                        {% for selector_value in value.selector_values %}
+                                            <option>{{ selector_value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% else %}
+                                    No
+                                {% endif %}
+                            </td>
+                            <td align="center">
+                                {{ item }}
+                            </td>
+                            <td align="center">
+                                {% if value.extra_field %}
+                                    <input type="text" placeholder="Enter only if 'between' is selected">
+                                {% else %}
+                                    None
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    {% endfor %}
+
+
+                </tr>
+            {% endfor %}
+        </table>
+
         <input type="submit" value="Proceed Query" class="btn btn-default">
     </form>
+
+
 
 {% endblock %}

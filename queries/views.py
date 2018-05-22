@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.http import HttpResponse
 from queries.forms import QueryData
-from database_reader.models import Flights,Aircraft
+from database_reader.models import Flights, Aircraft
 
 
 # Create your views here.
@@ -17,7 +17,11 @@ def query_step_two(request):
     chosen_fields = request.POST.getlist('to')
     form = QueryData(chosen_fields=chosen_fields)
     form.order_fields(chosen_fields)
-    return render(request, 'query/query-step-two.html', {'form': form})
+    context_dict = {
+        'form': form,
+        'parameters': form.parameters_dict
+    }
+    return render(request, 'query/query-step-two.html', context_dict)
 
 
 def query_results(request):
@@ -34,6 +38,6 @@ def query_results(request):
     for item in result:
         print(item.aircraftid.country)
     context_dict = {
-        'result':result
+        'result': result
     }
     return render(request, 'query/query_results.html', context_dict)
