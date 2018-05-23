@@ -2,38 +2,49 @@
 {% block body_content %}
     <form method="POST" action="{% url 'queries:query_result' %}">
         {% csrf_token %}
-        <table class="table table-bordered">
-
-            <th>Criteria Name</th>
-            <th>Selector</th>
-            <th>Criteria Value</th>
-            <th>Extra Criteria Value</th>
+        <table class="table table-responsive">
+{#            <tr>#}
+{#                <th align="center">Criteria Number</th>#}
+{#                <th align="center">Criteria Name</th>#}
+{#                <th align="center">Selector</th>#}
+{#                <th align="center">Criteria Value</th>#}
+{#                <th align="center">Extra Criteria Value</th>#}
+{#            </tr>#}
 
             {% for item in form %}
                 <tr>
-                    <td> {{ forloop.counter }}</td>
-                    <td>{{ item.label }}</td>
+                    <td style="width: 20px;"> {{ forloop.counter }}</td>
+                    <td style="width: 160px;">{{ item.label }}</td>
                     {% for key,value in parameters.items %}
                         {% if key == item.name %}
-                            <td align="center">
+                            <td align="center" style="width: 60px;">
                                 {% if value.selector %}
-                                    <select id="{{ item.name }} selector">
+                                    <select id="{{ item.name }}_selector">
                                         {% for selector_value in value.selector_values %}
-                                            <option>{{ selector_value }}</option>
+                                            <option value="{{ selector_value }}">{{ selector_value }}</option>
                                         {% endfor %}
                                     </select>
-                                {% else %}
-                                    No
+
                                 {% endif %}
                             </td>
-                            <td align="center">
+                            <td align="center" style="width: 200px;">
                                 {{ item }}
                             </td>
-                            <td align="center">
+                            <td align="center" style="width: 200px;">
                                 {% if value.extra_field %}
-                                    <input type="text" placeholder="Enter only if 'between' is selected">
-                                {% else %}
-                                    None
+                                    <input id="{{ item.name }}_extra" type="text" hidden>
+                                    <script>
+                                        var selector_{{ item.name }} = $("#{{ item.name }}_selector");
+                                        var option_value_{{ item.name }} = $("#{{ item.name }}_extra");
+                                        selector_{{ item.name }}.click(function () {
+                                            if (selector_{{ item.name }}.val() === "between") {
+                                                option_value_{{ item.name }}.fadeIn(1000)
+                                            }
+                                            else {
+                                                option_value_{{ item.name }}.fadeOut(500)
+                                            }
+                                        })
+                                    </script>
                                 {% endif %}
                             </td>
                         {% endif %}
