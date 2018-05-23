@@ -19,7 +19,7 @@
                         {% if key == item.name %}
                             <td align="center" style="width: 60px;">
                                 {% if value.selector %}
-                                    <select id="{{ item.name }}_selector">
+                                    <select id="{{ item.name }}_selector" name = "{{ item.name }}_selector">
                                         {% for selector_value in value.selector_values %}
                                             <option value="{{ selector_value }}">{{ selector_value }}</option>
                                         {% endfor %}
@@ -32,7 +32,7 @@
                             </td>
                             <td align="center" style="width: 200px;">
                                 {% if value.extra_field %}
-                                    <input id="{{ item.name }}_extra" type="text" hidden>
+                                    <input id="{{ item.name }}_extra" type="text" hidden name = "{{ item.name }}_extra">
                                     <script>
                                         var selector_{{ item.name }} = $("#{{ item.name }}_selector");
                                         var option_value_{{ item.name }} = $("#{{ item.name }}_extra");

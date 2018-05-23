@@ -22,88 +22,115 @@ class QueryData(forms.Form):
     parameters_dict = {
         'modescountry': {
             'selector': False,
-            'selector_values': [],
             'extra_field': False,
+            'table': 'aircraft',
+            'type': 'string',
         },
 
         'registeredowners': {
             'selector': False,
             'extra_field': False,
+            'table': 'aircraft',
+            'type': 'string',
         },
 
         'registration': {
             'selector': False,
             'extra_field': False,
+            'table': 'aircraft',
+            'type': 'string',
         },
 
         'aircraft_type': {
             'selector': False,
             'extra_field': False,
+            'table': 'aircraft',
+            'type': 'string',
         },
 
         'serialno': {
             'selector': False,
-            'selector_values': [],
             'extra_field': False,
+            'table': 'aircraft',
+            'type': 'int',
         },
 
         'yearbuilt': {
             'selector': True,
             'selector_values': ['less', 'less or equal', 'equal', 'greater or equal', 'greater', 'between'],
             'extra_field': True,
+            'table': 'aircraft',
+            'type': 'int',
         },
 
         'starttime': {
             'selector': True,
             'selector_values': ['less', 'less or equal', 'equal', 'greater or equal', 'greater', 'between'],
             'extra_field': True,
+            'table': 'flights',
+            'type': 'datetime',
         },
 
         'endtime': {
             'selector': True,
             'selector_values': ['less', 'less or equal', 'equal', 'greater or equal', 'greater', 'between'],
             'extra_field': True,
+            'table': 'flights',
+            'type': 'datetime',
         },
 
         'callsign': {
             'selector': False,
             'selector_values': [],
             'extra_field': False,
+            'table': 'flights',
+            'type': 'string',
         },
 
         'firstaltitude': {
             'selector': True,
             'selector_values': ['less', 'less or equal', 'equal', 'greater or equal', 'greater', 'between'],
             'extra_field': True,
+            'table': 'flights',
         },
         'lastaltitude': {
             'selector': True,
             'selector_values': ['less', 'less or equal', 'equal', 'greater or equal', 'greater', 'between'],
             'extra_field': True,
+            'table': 'flights',
+            'type': 'int',
         },
 
         'firstsquawk': {
             'selector': False,
             'selector_values': [],
             'extra_field': False,
+            'table': 'flights',
+            'type': 'int',
         },
 
         'lastsquawk': {
             'selector': False,
             'selector_values': [],
             'extra_field': False,
+            'table': 'flights',
+            'type': 'int',
         },
 
         'hadalert': {
             'selector': False,
             'selector_values': [],
             'extra_field': False,
+            'table': 'flights',
+            'type': 'bool',
         },
 
         'hademergency': {
             'selector': False,
             'selector_values': [],
             'extra_field': False,
+            'table': 'flights',
+            'type': 'bool',
         },
 
     }
