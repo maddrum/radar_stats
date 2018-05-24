@@ -6,7 +6,7 @@ class QueryData(forms.Form):
     modescountry = forms.CharField(label='Country:')
     registeredowners = forms.CharField(label='Owner:')
     registration = forms.CharField(label='Registration:')
-    aircraft_type = forms.CharField(label='Type:')
+    atype = forms.CharField(label='Type:')
     serialno = forms.CharField(label='Serial Number:')
     yearbuilt = forms.CharField(label='Manufacture Year:')
     starttime = forms.CharField(label='Start Time:', )
@@ -41,7 +41,7 @@ class QueryData(forms.Form):
             'type': 'string',
         },
 
-        'aircraft_type': {
+        'atype': {
             'selector': False,
             'extra_field': False,
             'table': 'aircraft',
@@ -90,6 +90,7 @@ class QueryData(forms.Form):
             'selector_values': ['less', 'less or equal', 'equal', 'greater or equal', 'greater', 'between'],
             'extra_field': True,
             'table': 'flights',
+            'type':'int',
         },
         'lastaltitude': {
             'selector': True,
