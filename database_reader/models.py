@@ -43,7 +43,7 @@ class Aircraft(models.Model):
     mtow = models.CharField(db_column='MTOW', max_length=10, blank=True, null=True)  # Field name made lowercase.
     totalhours = models.CharField(db_column='TotalHours', max_length=20, blank=True,
                                   null=True)  # Field name made lowercase.
-    yearbuilt = models.IntegerField(db_column='YearBuilt', max_length=4, blank=True,
+    yearbuilt = models.IntegerField(db_column='YearBuilt', blank=True,
                                  null=True)  # Field name made lowercase.
     cofacategory = models.CharField(db_column='CofACategory', max_length=30, blank=True,
                                     null=True)  # Field name made lowercase.

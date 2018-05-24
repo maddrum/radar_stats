@@ -64,17 +64,15 @@ class QueryData(forms.Form):
         },
 
         'starttime': {
-            'selector': True,
-            'selector_values': ['less', 'less or equal', 'equal', 'greater or equal', 'greater', 'between'],
-            'extra_field': True,
+            'selector': False,
+            'extra_field': False,
             'table': 'flights',
             'type': 'datetime',
         },
 
         'endtime': {
-            'selector': True,
-            'selector_values': ['less', 'less or equal', 'equal', 'greater or equal', 'greater', 'between'],
-            'extra_field': True,
+            'selector': False,
+            'extra_field': False,
             'table': 'flights',
             'type': 'datetime',
         },

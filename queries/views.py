@@ -3,9 +3,40 @@ from django.views.generic import TemplateView
 from django.http import HttpResponse
 from queries.forms import QueryData
 from database_reader.models import Flights, Aircraft
+from django.utils import timezone
 
 
 # Create your views here.
+def type_assign_helper(data_dict, parameter):
+    result_dict = {}
+    for raw_item in data_dict:
+        splitter_raw = raw_item.split("__")
+        item = splitter_raw[0]
+        if parameter[item]['type'] == 'int':
+            try:
+                if splitter_raw[1] == 'range':
+                    result_dict[raw_item] = tuple(map(int, (data_dict[raw_item])))
+            except IndexError:
+                result_dict[raw_item] = int(data_dict[raw_item])
+        elif parameter[item]['type'] == 'datetime':
+            datetime_format = '%Y-%m-%d %H:%M:%S'
+            date_time = timezone.datetime.strptime(data_dict[raw_item], datetime_format)
+            if raw_item == 'starttime':
+                date_time_item = 'starttime__gte'
+            else:
+                date_time_item = 'endtime__lte'
+            result_dict[date_time_item] = date_time
+        elif parameter[item]['type'] == 'bool':
+            if data_dict[raw_item] == 'on':
+                result_dict[raw_item] = 1
+            else:
+                result_dict[raw_item] = 1
+        else:
+            result_dict[raw_item] = data_dict[raw_item]
+
+    return result_dict
+
+
 class QueryEntryStep(TemplateView):
     template_name = 'query/query_start.html'
 
@@ -61,6 +92,8 @@ def query_results(request):
                 arguments[filter_item] = query_post_data[item][0]
     aircraft_kwargs = {}
     flight_kwargs = {}
+    arguments = type_assign_helper(arguments, parameters)
+
     for item in arguments:
         splitted_item = item.split("__")[0]
         if parameters[splitted_item]['table'] == "aircraft":
@@ -68,17 +101,17 @@ def query_results(request):
             aircraft_kwargs[key] = arguments[item]
         else:
             flight_kwargs[item] = arguments[item]
+
+
+    print(aircraft_kwargs)
+    print(flight_kwargs)
+
     if aircraft_kwargs:
         result = Flights.objects.select_related().filter(**aircraft_kwargs)
         if flight_kwargs:
             result.filter(**flight_kwargs)
     else:
         result = Flights.objects.filter(**flight_kwargs)
-    print(aircraft_kwargs)
-    print(flight_kwargs)
-
     context_dict = {
-        'result': result
-    }
-
+        'result': result}
     return render(request, 'query/query_results.html', context_dict)
