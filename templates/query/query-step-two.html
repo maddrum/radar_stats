@@ -7,12 +7,14 @@
           href="{% static 'bower_components/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css' %}">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/niceCountryInput.css' %}">
 {% endblock %}
 {% block heaader_scripts %}
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
     <script type="text/javascript"
             src="{% static 'bower_components/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js' %}"></script>
+    <script src="{% static 'js/niceCountryInput.js' %}"></script>
 {% endblock %}
 {% block body_content %}
     <form method="POST" action="{% url 'queries:query_result' %}">

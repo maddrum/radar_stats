@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from queries.forms import QueryData
 from database_reader.models import Flights, Aircraft
 from django.utils import timezone
+from django_countries.data import COUNTRIES
 
 
 def type_assign_helper(data_dict):
@@ -60,7 +61,6 @@ def query_results(request):
     if request.method != 'POST':
         return HttpResponse("No STEP 1 POST data. Please return to <a href = './query-start'> STEP 1</a>.")
     query_post_data = {key: value for key, value in dict(request.POST).items() if key != "csrfmiddlewaretoken"}
-    print(query_post_data)
     selectors = {
         'less': 'lt',
         'less or equal': 'lte',
@@ -92,21 +92,28 @@ def query_results(request):
         elif len(key) == 1:
             filter_item = f'{item}'
             arguments[filter_item] = query_post_data[item][0]
+    # make country with full name form abbreviation
+    if 'modescountry' in arguments:
+        country_abr = arguments['modescountry']
+        country_full_name = COUNTRIES[country_abr]
+        arguments['modescountry'] = country_full_name
     aircraft_kwargs = {}
     flight_kwargs = {}
     arguments = type_assign_helper(arguments)
     for item in arguments:
         split_item = item.split("__")[0]
         if parameters[split_item]['table'] == "aircraft":
-            #handle changed type field.
+            # handle changed type field.
             if split_item == 'atype':
-                modified_item = 'type'
+                modified_item = 'type__contains'
             else:
                 modified_item = item
             key = f'aircraftid__{modified_item}'
             aircraft_kwargs[key] = arguments[item]
         else:
             flight_kwargs[item] = arguments[item]
+    print(aircraft_kwargs)
+    print(flight_kwargs)
     if aircraft_kwargs:
         result = Flights.objects.select_related().filter(**aircraft_kwargs).exclude(aircraftid__registration='')
         if flight_kwargs:
@@ -114,5 +121,6 @@ def query_results(request):
     else:
         result = Flights.objects.filter(**flight_kwargs).exclude(aircraftid__registration='')
     context_dict = {
-        'result': result}
+        'result': result
+    }
     return render(request, 'query/query_results.html', context_dict)

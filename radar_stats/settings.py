@@ -24,7 +24,7 @@ SECRET_KEY = '%57udlx4j=g)qp%qs4g-4-)i=zcut0alfbq1xdpbqak38vh#e^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['radarstats.pythonanywhere.com','127.0.0.1',]
+ALLOWED_HOSTS = ['radarstats.pythonanywhere.com', '127.0.0.1', ]
 
 # Application definition
 
@@ -35,12 +35,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_countries',
     'fussion_charts',
     'database_reader',
     'accounts',
     'database_data_processor',
     'charts',
-
 
 ]
 

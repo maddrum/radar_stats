@@ -8,9 +8,26 @@
         an aircraft.</p>
     <p style="font-size: 14px"><em>Query Process:</em> The aircraft<em>(Ax</em>) criteria(if any) are processed first.
         Then it comes to the flight<em>(Fx)</em> criteria.
-   <br> <em>Example:</em> If you have chosen plane registration(A3 field) to be "RD-STAT" and last altitude to be less
-        than 19 000, it will first take all flights for "RD-STAT" plane, then show only those which last altitude is less than 19 000. </p>
+        <br> <em>Example:</em> If you have chosen plane registration(A3 field) to be "RD-STAT" and last altitude to be
+        less
+        than 19 000, it will first take all flights for "RD-STAT" plane, then show only those which last altitude is
+        less than 19 000. </p>
 
+    <h4>What is what:</h4>
+    <ul>
+        <li>A1.Country --- a drop-down list ---> select a single country</li>
+        <li>A2.Owner --- type-in field ---> Exact owner name must be provided. List of airlines could be found <a
+                href="https://en.wikipedia.org/wiki/Lists_of_airlines" target="_blank">here</a>.
+        </li>
+        <li>A3.Registration --- type-in field ---> A query for a plane registration. Exact registration must be
+            provided.
+        </li>
+        <li>A4.Aircraft Type --- type-in field ---> Must be something related to a plane name. Result will show all
+            planes
+            which type contains your input
+            <em>e.g. "Boeing", "Airbus", "747", "A320", etc.</em></li>
+        //todo: Enter all
+    </ul>
 
     <form method="POST" action="{% url 'queries:step_2' %}">
         {% csrf_token %}
@@ -52,7 +69,7 @@
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
                 $('#multiselect').multiselect({
-                    sort: false
+                    keepOrder: true
                 });
             });
         </script>

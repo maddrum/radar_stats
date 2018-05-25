@@ -1,19 +1,20 @@
 from django import forms
-from django.forms.widgets import HiddenInput
+from django_countries.fields import CountryField
+from django_countries.widgets import CountrySelectWidget
 
 
 class QueryData(forms.Form):
-    modescountry = forms.CharField(label='Country:')
+    modescountry = CountryField().formfield(widget=CountrySelectWidget())
     registeredowners = forms.CharField(label='Owner:')
     registration = forms.CharField(label='Registration:')
     atype = forms.CharField(label='Type:')
     serialno = forms.IntegerField(label='Serial Number:')
-    yearbuilt = forms.IntegerField(label='Manufacture Year:')
-    starttime = forms.DateTimeField(label='Start Time:', )
+    yearbuilt = forms.IntegerField(label='Manufacture Year:', initial=2011)
+    starttime = forms.DateTimeField(label='Start Time:')
     endtime = forms.DateTimeField(label='End Time:')
     callsign = forms.CharField(label="CallSign:")
-    firstaltitude = forms.IntegerField(label="Start altitude:")
-    lastaltitude = forms.IntegerField(label="Final altitude:")
+    firstaltitude = forms.IntegerField(label="First altitude:", initial=5_000)
+    lastaltitude = forms.IntegerField(label="Last altitude:", initial=10_000)
     firstsquawk = forms.IntegerField(label='SQUAWK code at start:')
     lastsquawk = forms.IntegerField(label='SQUAWK code at end:')
     hadalert = forms.BooleanField(label='Had Alert:')
