@@ -6,16 +6,16 @@ class QueryData(forms.Form):
     modescountry = forms.CharField(label='Country:')
     registeredowners = forms.CharField(label='Owner:')
     registration = forms.CharField(label='Registration:')
-    aircraft_type = forms.CharField(label='Type:')
-    serialno = forms.CharField(label='Serial Number:')
-    yearbuilt = forms.CharField(label='Manufacture Year:')
-    starttime = forms.CharField(label='Start Time:', )
-    endtime = forms.CharField(label='End Time:')
+    atype = forms.CharField(label='Type:')
+    serialno = forms.IntegerField(label='Serial Number:')
+    yearbuilt = forms.IntegerField(label='Manufacture Year:')
+    starttime = forms.DateTimeField(label='Start Time:', )
+    endtime = forms.DateTimeField(label='End Time:')
     callsign = forms.CharField(label="CallSign:")
-    firstaltitude = forms.CharField(label="Start altitude:")
-    lastaltitude = forms.CharField(label="Final altitude:")
-    firstsquawk = forms.CharField(label='SQUAWK code at start:')
-    lastsquawk = forms.CharField(label='SQUAWK code at end:')
+    firstaltitude = forms.IntegerField(label="Start altitude:")
+    lastaltitude = forms.IntegerField(label="Final altitude:")
+    firstsquawk = forms.IntegerField(label='SQUAWK code at start:')
+    lastsquawk = forms.IntegerField(label='SQUAWK code at end:')
     hadalert = forms.BooleanField(label='Had Alert:')
     hademergency = forms.BooleanField(label='Had Emergency:')
 
@@ -41,7 +41,8 @@ class QueryData(forms.Form):
             'type': 'string',
         },
 
-        'aircraft_type': {
+        'atype': {
+            # changed name to atype not to shadow python type() function
             'selector': False,
             'extra_field': False,
             'table': 'aircraft',
@@ -90,6 +91,7 @@ class QueryData(forms.Form):
             'selector_values': ['less', 'less or equal', 'equal', 'greater or equal', 'greater', 'between'],
             'extra_field': True,
             'table': 'flights',
+            'type': 'int',
         },
         'lastaltitude': {
             'selector': True,

@@ -1,15 +1,30 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+{% block header_link %}
+    <link rel="stylesheet"
+          href="https://rawgit.com/FezVrasta/bootstrap-material-design/master/dist/css/material.min.css"/>
+    <link rel="stylesheet"
+          href="{% static 'bower_components/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css' %}">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+{% block heaader_scripts %}
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <script type="text/javascript"
+            src="{% static 'bower_components/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js' %}"></script>
+{% endblock %}
 {% block body_content %}
     <form method="POST" action="{% url 'queries:query_result' %}">
         {% csrf_token %}
         <table class="table table-responsive">
-{#            <tr>#}
-{#                <th align="center">Criteria Number</th>#}
-{#                <th align="center">Criteria Name</th>#}
-{#                <th align="center">Selector</th>#}
-{#                <th align="center">Criteria Value</th>#}
-{#                <th align="center">Extra Criteria Value</th>#}
-{#            </tr>#}
+            {#            <tr>#}
+            {#                <th align="center">Criteria Number</th>#}
+            {#                <th align="center">Criteria Name</th>#}
+            {#                <th align="center">Selector</th>#}
+            {#                <th align="center">Criteria Value</th>#}
+            {#                <th align="center">Extra Criteria Value</th>#}
+            {#            </tr>#}
 
             {% for item in form %}
                 <tr>
@@ -19,7 +34,7 @@
                         {% if key == item.name %}
                             <td align="center" style="width: 60px;">
                                 {% if value.selector %}
-                                    <select id="{{ item.name }}_selector" name = "{{ item.name }}_selector">
+                                    <select id="{{ item.name }}_selector" name="{{ item.name }}_selector">
                                         {% for selector_value in value.selector_values %}
                                             <option value="{{ selector_value }}">{{ selector_value }}</option>
                                         {% endfor %}
@@ -32,7 +47,7 @@
                             </td>
                             <td align="center" style="width: 200px;">
                                 {% if value.extra_field %}
-                                    <input id="{{ item.name }}_extra" type="text" hidden name = "{{ item.name }}_extra">
+                                    <input id="{{ item.name }}_extra" type="text" hidden name="{{ item.name }}_extra">
                                     <script>
                                         var selector_{{ item.name }} = $("#{{ item.name }}_selector");
                                         var option_value_{{ item.name }} = $("#{{ item.name }}_extra");
@@ -57,6 +72,29 @@
 
         <input type="submit" value="Proceed Query" class="btn btn-default">
     </form>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#id_starttime').bootstrapMaterialDatePicker
+            ({
+                weekStart: 1,
+                time: true,
+                clearButton: true,
+                format: 'YYYY-MM-DD HH:mm'
+
+
+            });
+            $('#id_endtime').bootstrapMaterialDatePicker
+            ({
+                weekStart: 1,
+                time: true,
+                clearButton: true,
+                format: 'YYYY-MM-DD HH:mm'
+            });
+
+        })
+
+    </script>
+
 
 
 
