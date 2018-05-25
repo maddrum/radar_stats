@@ -98,7 +98,7 @@ def query_results(request):
     for item in arguments:
         split_item = item.split("__")[0]
         if parameters[split_item]['table'] == "aircraft":
-            #handle changed type field
+            #handle changed type field.
             if split_item == 'atype':
                 modified_item = 'type'
             else:
