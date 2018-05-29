@@ -120,9 +120,11 @@ TIME_ZONE = 'EET'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
+
+DATETIME_FORMAT = 'd-m-Y, D @ H:i'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

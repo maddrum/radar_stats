@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, CreateView
 from django.http import HttpResponse
 from queries.forms import QueryData
-from database_reader.models import Flights, Aircraft
+from database_reader.models import Flights
 from django.utils import timezone
 from django_countries.data import COUNTRIES
+from accounts.models import UserQueries
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def type_assign_helper(data_dict):
@@ -37,6 +39,46 @@ def type_assign_helper(data_dict):
                 result_dict[raw_item] = 1
         else:
             result_dict[raw_item] = data_dict[raw_item]
+    return result_dict
+
+
+def human_readable_queries(input_dict):
+    # makes filter **kwargs human readable for display
+    result_dict = {}
+    reverse_selectors = {
+        'lt': 'less than',
+        'lte': 'less or equal than',
+        'equal': 'equal',
+        'gte': 'greater or equal than',
+        'gt': 'greater than',
+        'range': 'between',
+    }
+    for item in input_dict:
+        selector = ''
+        split_item = item.split("__")
+        query_value = input_dict[item]
+        if item == "hadalert" or item == "hademergency":
+            if query_value == 1:
+                query_value = True
+            else:
+                query_value = False
+        if split_item[0] == 'aircraftid':
+            key = split_item[1]
+        else:
+            key = split_item[0]
+        if key == 'type':
+            key = 'atype'
+        result_key = QueryData.parameters_dict[key]['human_text']
+        have_selector = QueryData.parameters_dict[key]['selector']
+        if have_selector:
+            if len(split_item) == 2:
+                selector = reverse_selectors[split_item[1]]
+            else:
+                selector = reverse_selectors[split_item[2]]
+        if selector:
+            result_dict[result_key] = selector + " " + str(query_value)
+        else:
+            result_dict[result_key] = query_value
     return result_dict
 
 
@@ -112,15 +154,32 @@ def query_results(request):
             aircraft_kwargs[key] = arguments[item]
         else:
             flight_kwargs[item] = arguments[item]
-    print(aircraft_kwargs)
-    print(flight_kwargs)
     if aircraft_kwargs:
         result = Flights.objects.select_related().filter(**aircraft_kwargs).exclude(aircraftid__registration='')
         if flight_kwargs:
             result = result.filter(**flight_kwargs)
     else:
         result = Flights.objects.filter(**flight_kwargs).exclude(aircraftid__registration='')
+    human_aircraft_kwargs = human_readable_queries(aircraft_kwargs)
+    human_flights_kwargs = human_readable_queries(flight_kwargs)
+    print(aircraft_kwargs)
+    print(flight_kwargs)
+    aircraft_kwargs_string = ''
+    for item in aircraft_kwargs:
+        aircraft_kwargs_string = aircraft_kwargs_string + str(item) + ":" + str(aircraft_kwargs[item]) + ','
+    request.session['aircraft'] = aircraft_kwargs_string
+    # request.session['flight'] = flight_kwargs
+
     context_dict = {
-        'result': result
+        'result': result,
+        'airplane_kwargs': human_aircraft_kwargs,
+        'flight_kwargs': human_flights_kwargs,
     }
     return render(request, 'query/query_results.html', context_dict)
+
+
+def save_custom_query(request):
+    context_dict = {
+        'test': request.session['aircraft']
+    }
+    return render(request, 'query/query-save.html', context_dict)

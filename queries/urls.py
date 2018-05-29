@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'query-start', views.QueryEntryStep.as_view(), name='query_start'),
     url(r'query-step-two', views.query_step_two, name='step_2'),
     url(r'query-result', views.query_results, name='query_result'),
+    url(r'query-save', views.save_custom_query, name='save_query'),
 ]

@@ -20,12 +20,25 @@ class QueryData(forms.Form):
     hadalert = forms.BooleanField(label='Had Alert:')
     hademergency = forms.BooleanField(label='Had Emergency:')
 
+    # parameters_dict is a setup dictionary containing parameters for setting up query fields.
+    # parameters are:
+    #     selector : if there should be a selector drop dawn menu
+    #     selector_values: if there is a selector field - values on the drop-dawn menu
+    #     extra_field: if there should be an extra field(ex for between field)
+    #     type: # a proper data type
+    #     human_text: A human readable text for the field.
+    # if new queries added - add fields accordingly.
+    # if new functionality added - add Key/Value pairs.
+    # NB: If selector is true - there must be selector values list!
+
+
     parameters_dict = {
         'modescountry': {
             'selector': False,
             'extra_field': False,
             'table': 'aircraft',
             'type': 'string',
+            'human_text': 'A1:Country',
         },
 
         'registeredowners': {
@@ -33,6 +46,7 @@ class QueryData(forms.Form):
             'extra_field': False,
             'table': 'aircraft',
             'type': 'string',
+            'human_text': 'A2:Owner',
         },
 
         'registration': {
@@ -40,6 +54,7 @@ class QueryData(forms.Form):
             'extra_field': False,
             'table': 'aircraft',
             'type': 'string',
+            'human_text': 'A3:Registration',
         },
 
         'atype': {
@@ -48,6 +63,7 @@ class QueryData(forms.Form):
             'extra_field': False,
             'table': 'aircraft',
             'type': 'string',
+            'human_text': 'A4:Aircraft Type',
         },
 
         'serialno': {
@@ -55,6 +71,7 @@ class QueryData(forms.Form):
             'extra_field': False,
             'table': 'aircraft',
             'type': 'int',
+            'human_text': 'A5:Serial Number',
         },
 
         'yearbuilt': {
@@ -63,6 +80,7 @@ class QueryData(forms.Form):
             'extra_field': True,
             'table': 'aircraft',
             'type': 'int',
+            'human_text': 'A6: Year of Manufacture',
         },
 
         'starttime': {
@@ -70,6 +88,7 @@ class QueryData(forms.Form):
             'extra_field': False,
             'table': 'flights',
             'type': 'datetime',
+            'human_text': 'F1:Start Time',
         },
 
         'endtime': {
@@ -77,6 +96,7 @@ class QueryData(forms.Form):
             'extra_field': False,
             'table': 'flights',
             'type': 'datetime',
+            'human_text': 'F2:End Time',
         },
 
         'callsign': {
@@ -85,6 +105,7 @@ class QueryData(forms.Form):
             'extra_field': False,
             'table': 'flights',
             'type': 'string',
+            'human_text': 'F3:Callsign',
         },
 
         'firstaltitude': {
@@ -93,6 +114,7 @@ class QueryData(forms.Form):
             'extra_field': True,
             'table': 'flights',
             'type': 'int',
+            'human_text': 'F4:First Altitude',
         },
         'lastaltitude': {
             'selector': True,
@@ -100,6 +122,7 @@ class QueryData(forms.Form):
             'extra_field': True,
             'table': 'flights',
             'type': 'int',
+            'human_text': 'F5:Last Altitude',
         },
 
         'firstsquawk': {
@@ -108,6 +131,7 @@ class QueryData(forms.Form):
             'extra_field': False,
             'table': 'flights',
             'type': 'int',
+            'human_text': 'F6:First SQUAWK',
         },
 
         'lastsquawk': {
@@ -116,6 +140,7 @@ class QueryData(forms.Form):
             'extra_field': False,
             'table': 'flights',
             'type': 'int',
+            'human_text': 'F7:Last SQUAWK',
         },
 
         'hadalert': {
@@ -124,6 +149,7 @@ class QueryData(forms.Form):
             'extra_field': False,
             'table': 'flights',
             'type': 'bool',
+            'human_text': 'F8:Had Alert',
         },
 
         'hademergency': {
@@ -132,6 +158,7 @@ class QueryData(forms.Form):
             'extra_field': False,
             'table': 'flights',
             'type': 'bool',
+            'human_text': 'F9:Had Emergency',
         },
 
     }
