@@ -6,6 +6,7 @@ from database_reader.models import Flights
 from django.utils import timezone
 from django_countries.data import COUNTRIES
 from accounts.models import UserQueries
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -82,8 +83,16 @@ def human_readable_queries(input_dict):
     return result_dict
 
 
+def json_serializer_helper(input_dict):
+    return_string = ''
+    for item in input_dict:
+        return_string = return_string + str(item) + ':' + str(input_dict[item]) + ','
+    return_string = return_string[:-1]
+    return return_string
+
+
 class QueryEntryStep(TemplateView):
-    template_name = 'query/query_start.html'
+    template_name = 'queries/query_start.html'
 
 
 def query_step_two(request):
@@ -96,7 +105,7 @@ def query_step_two(request):
         'form': form,
         'parameters': form.parameters_dict
     }
-    return render(request, 'query/query-step-two.html', context_dict)
+    return render(request, 'queries/query-step-two.html', context_dict)
 
 
 def query_results(request):
@@ -162,24 +171,37 @@ def query_results(request):
         result = Flights.objects.filter(**flight_kwargs).exclude(aircraftid__registration='')
     human_aircraft_kwargs = human_readable_queries(aircraft_kwargs)
     human_flights_kwargs = human_readable_queries(flight_kwargs)
-    print(aircraft_kwargs)
-    print(flight_kwargs)
-    aircraft_kwargs_string = ''
-    for item in aircraft_kwargs:
-        aircraft_kwargs_string = aircraft_kwargs_string + str(item) + ":" + str(aircraft_kwargs[item]) + ','
+    # convert dictionary to string
+    aircraft_kwargs_string = json_serializer_helper(aircraft_kwargs)
+    flight_kwargs_string = json_serializer_helper(flight_kwargs)
+    human_readable_aircraft_string = json_serializer_helper(human_aircraft_kwargs)
+    human_readable_flight_string = json_serializer_helper(human_flights_kwargs)
+    # write query data into session
     request.session['aircraft'] = aircraft_kwargs_string
-    # request.session['flight'] = flight_kwargs
+    request.session['flight'] = flight_kwargs_string
+    request.session['human_readable_aircraft_kwargs'] = human_readable_aircraft_string
+    request.session['human_readable_flight_kwargs'] = human_readable_flight_string
 
     context_dict = {
         'result': result,
         'airplane_kwargs': human_aircraft_kwargs,
         'flight_kwargs': human_flights_kwargs,
     }
-    return render(request, 'query/query_results.html', context_dict)
+    return render(request, 'queries/query_results.html', context_dict)
 
 
-def save_custom_query(request):
-    context_dict = {
-        'test': request.session['aircraft']
-    }
-    return render(request, 'query/query-save.html', context_dict)
+class SaveSuccessView(TemplateView):
+    template_name = 'queries/query-save-success.html'
+
+
+class SaveUserQueryCreateView(LoginRequiredMixin, CreateView):
+    model = UserQueries
+    fields = ('query_name',)
+    template_name = 'queries/query-save.html'
+
+    # rewrite form_valid method to auto fill user_id and, query arguments. User inputs name.
+    def form_valid(self, form):
+        form.instance.user_id = self.request.user
+        form.instance.query_aircraft_args = self.request.session['aircraft']
+        form.instance.query_flight_args = self.request.session['flight']
+        return super().form_valid(form)

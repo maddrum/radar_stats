@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block body_content %}
+
+    <h3>Processed query data:</h3>
+    <ol>
+        {% for key,value in airplane_kwargs.items %}
+            <li>{{ key }} - {{ value }}</li>
+        {% endfor %}
+        {% for key,value in flight_kwargs.items %}
+            <li>{{ key }} - {{ value }}</li>
+        {% endfor %}
+    </ol>
+    {% if user.is_authenticated %}
+        <h4>Query options</h4>
+        <ul class="ul_style_1">
+            <li><a href="{% url 'queries:save_query' %}">Save this query to your profile</a></li>
+            <li><a href="#">Export to PDF</a></li>
+
+        </ul>
+    {% else %}
+        <h4>Please note:</h4>
+        <ul class="ul_style_1">
+            <li>Logged users could save and re-run queries</li>
+        </ul>
+    {% endif %}
+    <h3>Query results</h3>
+    <table cellspacing="50px" class="table table-striped table-bordered">
+        <tr align="center">
+            <th>Country</th>
+            <th>Owner</th>
+            <th>Type</th>
+            <th>Reg</th>
+            <th>Serial</th>
+            <th>Year</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>First Altitude</th>
+            <th>Last ALtitude</th>
+        </tr>
+
+        {% for item in result %}
+            <tr class="table table-responsive table-bordered">
+                <td>{{ item.aircraftid.country }}</td>
+                <td>{{ item.aircraftid.registeredowners }}</td>
+                <td>{{ item.aircraftid.type }}</td>
+                <td>{{ item.aircraftid.registration }}</td>
+                <td>{{ item.aircraftid.serialno }}</td>
+                <td>{{ item.aircraftid.yearbuilt }}</td>
+                <td>{{ item.starttime }}</td>
+                <td>{{ item.endtime }}</td>
+                <td>{{ item.firstaltitude }}</td>
+                <td>{{ item.lastaltitude }}</td>
+            </tr>
+
+        {% endfor %}
+    </table>
+
+
+{% endblock %}

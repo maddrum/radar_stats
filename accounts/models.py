@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 
 # Create your models here.
@@ -9,3 +10,6 @@ class UserQueries(models.Model):
     query_name = models.CharField(max_length=100)
     query_aircraft_args = models.TextField(blank=True)
     query_flight_args = models.TextField(blank=True)
+
+    def get_absolute_url(self):
+        return reverse('queries:save_query_success')
