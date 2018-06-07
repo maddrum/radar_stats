@@ -51,17 +51,6 @@
                 <nav id="fh5co-main-nav" role="navigation">
                     <ul>
                         <li><a href="{% url 'main_app:about' %}">About</a></li>
-                        <li class="has-sub">
-                            <div class="drop-down-menu">
-                                <a href="services.html">Raw Data</a>
-                                <div class="dropdown-menu-wrap">
-                                    <ul>
-                                        <li><a href="{% url 'database_reader:aircraft' %}">Aircraft</a></li>
-                                        <li><a href="{% url 'database_reader:flights' %}">Flights</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
                         <li><a href="{% url 'queries:query_start' %}">Make Query</a></li>
                         <li class="has-sub">
                             <div class="drop-down-menu">
