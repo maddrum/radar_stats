@@ -132,5 +132,3 @@ class LandingsDayTimes(models.Model):
         return name_for_stats, records_counter
 
 
-class TestModel(models.Model):
-    test = models.CharField(max_length=10)
