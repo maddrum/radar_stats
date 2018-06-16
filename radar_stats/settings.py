@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'database_data_processor',
     'charts',
+    'main_app',
 
 ]
 
