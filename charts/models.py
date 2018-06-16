@@ -106,6 +106,7 @@ class TakeOffDayTimes(models.Model):
         self.objects.bulk_create(bulk_array)
         return name_for_stats, records_counter
 
+
 class LandingsDayTimes(models.Model):
     time_of_the_day = models.IntegerField()
     number_of_planes = models.BigIntegerField()
@@ -129,3 +130,7 @@ class LandingsDayTimes(models.Model):
             bulk_array.append(array_item)
         self.objects.bulk_create(bulk_array)
         return name_for_stats, records_counter
+
+
+class TestModel(models.Model):
+    test = models.CharField(max_length=10)
